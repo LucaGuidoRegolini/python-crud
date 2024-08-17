@@ -10,11 +10,13 @@ class UserModel(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
 
 
-class ContactModel(db.Model):
-    __tablename__ = 'contact'
+class ContractModel(db.Model):
+    __tablename__ = 'contract'
     id = db.Column(db.Integer, primary_key=True)
     fidelity = db.Column(db.Integer, nullable=False)
     amount = db.Column(db.Float, nullable=False)
+    description = db.Column(db.String(120), nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship(
         'UserModel', backref=db.backref('contacts', lazy=True))

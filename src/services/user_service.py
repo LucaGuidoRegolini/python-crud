@@ -1,4 +1,5 @@
 from domains.user import User
+from repositories.contract_repository import ContractRepository
 from responses.graphql_response import GraphqlError, GraphqlMutationResponse
 from repositories.user_repository import UserRepository
 from models import UserModel
@@ -45,6 +46,11 @@ class UserService:
 
     def delete_user(user_id):
         user_model = UserRepository.get_user_by_id(user_id)
+        contracts = ContractRepository.get_contract_by_user_id(user_id)
+
+        if contracts.__len__() > 0:
+            return GraphqlError("User has active contracts")
+
         if user_model:
             UserRepository.delete_user(user_model)
             return GraphqlMutationResponse("User deleted")

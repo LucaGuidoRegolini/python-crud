@@ -1,42 +1,57 @@
 import graphene
 from graphql_types.response_type import AppType
 from services.user_service import UserService
-from graphql_types.user_type import UserType
+
+
+class CreateUserInput(graphene.InputObjectType):
+    name = graphene.String(required=True)
+    email = graphene.String(required=True)
+
+
+class UpdateUserInput(graphene.InputObjectType):
+    name = graphene.String()
+    email = graphene.String()
 
 
 class CreateUser(graphene.Mutation):
 
     class Arguments:
-        name = graphene.String(required=True)
-        email = graphene.String(required=True)
+        input = CreateUserInput(required=True)
 
-    user = graphene.Field(UserType)
+    id = graphene.ID()
+    name = graphene.String()
+    email = graphene.String()
+    message = graphene.String()
+    success = graphene.Boolean()
 
-    def mutate(self, info, name, email):
-        user, error = UserService.create_user(name, email)
+    def mutate(self, info, input):
+        user, error = UserService.create_user(input.name, input.email)
 
         if error:
-            return CreateUser(error)
+            return error
 
-        return CreateUser(user=user)
+        return user
 
 
 class UpdateUser(graphene.Mutation):
 
     class Arguments:
-        id = graphene.Int(required=True)
-        name = graphene.String()
-        email = graphene.String()
+        id = graphene.ID(required=True)
+        input = UpdateUserInput(required=True)
 
-    user = graphene.Field(UserType)
+    id = graphene.ID()
+    name = graphene.String()
+    email = graphene.String()
+    message = graphene.String()
+    success = graphene.Boolean()
 
-    def mutate(self, info, id, name, email):
-        user, error = UserService.update_user(id, name, email)
+    def mutate(self, info, id, input):
+        user, error = UserService.update_user(id, input.name, input.email)
 
         if error:
-            return UpdateUser(error)
+            return error
 
-        return UpdateUser(user=user)
+        return user
 
 
 class DeleteUser(graphene.Mutation):
@@ -44,12 +59,13 @@ class DeleteUser(graphene.Mutation):
     class Arguments:
         id = graphene.Int(required=True)
 
-    response = graphene.Field(AppType)
+    message = graphene.String()
+    success = graphene.Boolean()
 
     def mutate(self, info, id):
         response = UserService.delete_user(id)
 
-        return DeleteUser(response)
+        return response
 
 
 class UserMutation(graphene.ObjectType):

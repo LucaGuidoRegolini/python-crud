@@ -1,5 +1,6 @@
 import graphene
 from graphql_types.response_type import AppType
+from middleware.api_key import api_key_required
 from services.user_service import UserService
 
 
@@ -24,6 +25,7 @@ class CreateUser(graphene.Mutation):
     message = graphene.String()
     success = graphene.Boolean()
 
+    @api_key_required
     def mutate(self, info, input):
         user, error = UserService.create_user(input.name, input.email)
 
@@ -45,6 +47,7 @@ class UpdateUser(graphene.Mutation):
     message = graphene.String()
     success = graphene.Boolean()
 
+    @api_key_required
     def mutate(self, info, id, input):
         user, error = UserService.update_user(id, input.name, input.email)
 
@@ -62,6 +65,7 @@ class DeleteUser(graphene.Mutation):
     message = graphene.String()
     success = graphene.Boolean()
 
+    @api_key_required
     def mutate(self, info, id):
         response = UserService.delete_user(id)
 

@@ -10,8 +10,8 @@ class UserService:
     def get_user(user_id):
         user_model = UserRepository.get_user_by_id(user_id)
         if user_model:
-            return User(id=user_model.id, name=user_model.name, email=user_model.email), None
-        return None, GraphqlError("User not found")
+            return User(id=user_model.id, name=user_model.name, email=user_model.email)
+        return None
 
     def create_user(name, email):
         user = User(id=None, name=name, email=email)

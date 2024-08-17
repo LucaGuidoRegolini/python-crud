@@ -3,6 +3,7 @@ from domains.contract import Contract
 from graphql_types.contract_type import ContractListResponseType
 from models import ContractModel
 from repositories.contract_repository import ContractRepository
+from repositories.user_repository import UserRepository
 from responses.graphql_response import GraphqlError, GraphqlMutationResponse
 
 
@@ -47,7 +48,7 @@ class ContractService:
         if validation:
             return None, GraphqlError(validation)
 
-        user_exists = ContractRepository.get_contract_by_user_id(user_id)
+        user_exists = UserRepository.get_user_by_id(user_id)
 
         if not user_exists:
             return None, GraphqlError("User not found")
@@ -70,8 +71,12 @@ class ContractService:
         if not contract_model:
             return None, GraphqlError("Contract not found")
 
-        contract = Contract(contract_model.user_id,
-                            fidelity, amount, description)
+        contract = Contract(
+            contract_model.user_id,
+            fidelity if fidelity is not None else contract_model.fidelity,
+            amount if amount is not None else contract_model.amount,
+            description if description is not None else contract_model.description
+        )
         validation = contract.validate()
 
         if validation:

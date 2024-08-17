@@ -8,7 +8,7 @@ from services.jwt_service import JwtService
 def api_key_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        bear_token = request.headers.get('Authorization')
+        bear_token = request.headers.get('Authentication')
 
         if not bear_token or not bear_token.startswith('Bearer '):
             raise GraphQLError("Invalid API Key or Key not provided!")

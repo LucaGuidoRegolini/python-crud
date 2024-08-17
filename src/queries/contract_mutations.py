@@ -7,7 +7,7 @@ from services.contract_service import ContractService
 
 
 class CreateContractInput(graphene.InputObjectType):
-    user_id = graphene.Int(required=True)
+    user_id = graphene.ID(required=True)
     fidelity = graphene.Int(required=True)
     amount = graphene.Float(required=True)
     description = graphene.String()
@@ -46,7 +46,7 @@ class CreateContract(graphene.Mutation):
 class UpdateContract(graphene.Mutation):
 
     class Arguments:
-        id = graphene.Int(required=True)
+        id = graphene.ID(required=True)
         input = UpdateContractInput(required=True)
     id = graphene.ID()
     description = graphene.String()
@@ -70,7 +70,7 @@ class UpdateContract(graphene.Mutation):
 class DeleteContract(graphene.Mutation):
 
     class Arguments:
-        id = graphene.Int(required=True)
+        id = graphene.ID(required=True)
 
     message = graphene.String()
     success = graphene.Boolean()
@@ -82,6 +82,6 @@ class DeleteContract(graphene.Mutation):
 
 
 class ContractMutation(graphene.ObjectType):
-    create_contract = CreateContract().Field()
-    delete_contract = DeleteContract().Field()
-    update_contract = UpdateContract().Field()
+    createContract = CreateContract().Field()
+    deleteContract = DeleteContract().Field()
+    updateContract = UpdateContract().Field()

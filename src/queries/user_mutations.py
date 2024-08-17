@@ -57,7 +57,7 @@ class UpdateUser(graphene.Mutation):
 class DeleteUser(graphene.Mutation):
 
     class Arguments:
-        id = graphene.Int(required=True)
+        id = graphene.ID(required=True)
 
     message = graphene.String()
     success = graphene.Boolean()
@@ -69,6 +69,6 @@ class DeleteUser(graphene.Mutation):
 
 
 class UserMutation(graphene.ObjectType):
-    create_user = CreateUser().Field()
-    update_user = UpdateUser().Field()
-    delete_user = DeleteUser().Field()
+    createUser = CreateUser().Field()
+    updateUser = UpdateUser().Field()
+    deleteUser = DeleteUser().Field()

@@ -4,8 +4,8 @@ from graphql_types.user_type import UserType
 
 
 class ContractType(graphene.ObjectType):
-    id = graphene.Int()
-    user_id = graphene.Int()
+    id = graphene.ID()
+    user_id = graphene.ID()
     fidelity = graphene.Int()
     amount = graphene.Float()
     user = graphene.Field(UserType)
@@ -18,8 +18,8 @@ class ContractTypeResponse(ContractType, AppType):
 
 
 class ContractTypeWithoutUser(ContractType):
-    id = graphene.Int()
-    user_id = graphene.Int()
+    id = graphene.ID()
+    user_id = graphene.ID()
     fidelity = graphene.Int()
     amount = graphene.Float()
     description = graphene.String()

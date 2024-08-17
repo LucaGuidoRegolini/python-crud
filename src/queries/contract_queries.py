@@ -25,8 +25,8 @@ def resolve_get_contracts_by_id(self, info, id):
 
 class ContractQuery(graphene.ObjectType):
     getContractsByUser = graphene.Field(
-        ContractListResponseType, user_id=graphene.Int(required=True), page=graphene.Int(required=False, default_value=1), resolver=resolve_get_contracts_by_user)
+        ContractListResponseType, user_id=graphene.ID(required=True), page=graphene.Int(required=False, default_value=1), resolver=resolve_get_contracts_by_user)
 
     getContract = graphene.Field(
-        ContractTypeResponse, id=graphene.Int(required=True), resolver=resolve_get_contracts_by_id
+        ContractTypeResponse, id=graphene.ID(required=True), resolver=resolve_get_contracts_by_id
     )

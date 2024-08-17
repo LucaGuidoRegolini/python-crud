@@ -14,7 +14,7 @@ class Query(UserQuery, ContractQuery):
     pass
 
 
-schema = graphene.Schema(query=Query, mutation=Mutations)
+schema = graphene.Schema(query=Query, mutation=Mutations, auto_camelcase=False)
 
 
 def register_schema(app):

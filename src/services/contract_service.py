@@ -47,6 +47,11 @@ class ContractService:
         if validation:
             return None, GraphqlError(validation)
 
+        user_exists = ContractRepository.get_contract_by_user_id(user_id)
+
+        if not user_exists:
+            return None, GraphqlError("User not found")
+
         contract_model = ContractModel(
             user_id=contract.user_id,
             fidelity=contract.fidelity,

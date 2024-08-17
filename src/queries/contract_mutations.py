@@ -3,6 +3,7 @@ import graphene
 
 from graphql_types.contract_type import ContractType
 from graphql_types.response_type import AppType
+from middleware.api_key import api_key_required
 from services.contract_service import ContractService
 
 
@@ -33,6 +34,7 @@ class CreateContract(graphene.Mutation):
     message = graphene.String()
     success = graphene.Boolean()
 
+    @api_key_required
     def mutate(self, info, input):
         response, error = ContractService.create_contract(
             input.user_id,  input.fidelity,  input.amount,  input.description)
@@ -57,6 +59,7 @@ class UpdateContract(graphene.Mutation):
     message = graphene.String()
     success = graphene.Boolean()
 
+    @api_key_required
     def mutate(self, info, id, input):
         response, error = ContractService.update_contract(
             id, input.fidelity, input.amount, input.description)
@@ -75,6 +78,7 @@ class DeleteContract(graphene.Mutation):
     message = graphene.String()
     success = graphene.Boolean()
 
+    @api_key_required
     def mutate(self, info, id):
         response = ContractService.delete_contract(id)
 

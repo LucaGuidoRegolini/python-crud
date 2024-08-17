@@ -6,10 +6,8 @@ class ContractRepository:
     def get_contract_by_id(contract_id, with_user=False):
 
         if with_user:
-            # Get all data including user
             resp = ContractModel.query.select_from(ContractModel).join(
                 UserModel).where(ContractModel.id == contract_id).first()
-            print(resp)
             return resp
         else:
             return ContractModel.query.get(contract_id)

@@ -15,8 +15,3 @@ class Query(UserQuery, ContractQuery):
 
 
 schema = graphene.Schema(query=Query, mutation=Mutations, auto_camelcase=False)
-
-
-def register_schema(app):
-    app.add_url_rule(
-        '/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True))

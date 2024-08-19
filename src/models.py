@@ -23,10 +23,8 @@ class ContractModel(db.Model):
         'UserModel', backref=db.backref('contacts', lazy=True))
 
 
-db_url = os.getenv('DATABASE_URL')
-
-
 def register_models(app):
+    db_url = os.getenv('DATABASE_URL')
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url
     db.init_app(app)
     db.create_all()

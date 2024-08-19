@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/mydatabase
+      JWT_SECRET: secret
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    networks:
+      - project_default
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - project_default
+
+networks:
+  project_default:
+    driver: bridge
+
+volumes:
+  postgres_data:

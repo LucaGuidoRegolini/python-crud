@@ -1,4 +1,5 @@
 import os
+from sqlalchemy import inspect
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -27,4 +28,9 @@ def register_models(app):
     db_url = os.getenv('DATABASE_URL')
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url
     db.init_app(app)
-    db.create_all()
+
+    inspector = inspect(db.engine)
+    existing_tables = inspector.get_table_names()
+
+    if not set([model.__tablename__ for model in [UserModel, ContractModel]]) <= set(existing_tables):
+        db.create_all()

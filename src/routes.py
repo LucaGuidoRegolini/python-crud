@@ -9,7 +9,7 @@ routes = Blueprint('routes', __name__)
 
 @routes.route('/')
 def index():
-    return 'Python GraphQL API'
+    return 'Python GraphQL API 1.0.1'
 
 
 @routes.route('/api', methods=['POST'])

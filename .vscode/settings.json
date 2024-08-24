@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["graphene", "jsonify"]
+  "cSpell.words": ["graphene", "jsonify"],
+  "ansible.python.interpreterPath": "/home/luca/projetos/python-crud/venv/bin/python"
 }

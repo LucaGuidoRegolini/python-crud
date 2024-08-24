@@ -1,0 +1,58 @@
+- hosts: all
+  become: yes
+  vars:
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+
+  tasks:
+    - name: Install required system packages
+      apt:
+        pkg:
+          - curl
+          - docker.io
+          - python3-pip
+        state: latest
+        update_cache: yes
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Install AWS CLI
+      apt:
+        name: awscli
+        state: latest
+
+    - name: Configure AWS CLI
+      shell: |
+        aws configure set aws_access_key_id {{ AWS_ACCESS_KEY }}
+        aws configure set aws_secret_access_key {{ AWS_SECRET_KEY }}
+        aws configure set default.region {{ AWS_REGION }}
+
+    - name: Add user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        group: docker
+        append: yes
+
+    - name: Set permissions on Docker socket
+      file:
+        path: /var/run/docker.sock
+        owner: root
+        group: docker
+        mode: "0660"
+
+    - name: Log in to ECR
+      shell: |
+        aws ecr get-login-password --region {{ AWS_REGION }} | docker login --username AWS --password-stdin {{ AWS_USER_ID }}.dkr.ecr.{{ AWS_REGION }}.amazonaws.com
+      environment:
+        AWS_ACCESS_KEY_ID: "{{ AWS_ACCESS_KEY }}"
+        AWS_SECRET_ACCESS_KEY: "{{ AWS_SECRET_KEY }}"
+        AWS_REGION: "{{ AWS_REGION }}"
+
+    - name: Pull Docker image from ECR
+      shell: |
+        docker pull {{ECR_URL}}
+
+    - name: Run Docker container
+      shell: |
+        docker run -d --name project-container -p {{PROJECT_PORT}}:5000 {{ ECR_URL }}

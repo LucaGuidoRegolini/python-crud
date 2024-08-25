@@ -13,3 +13,6 @@ if [ ! -f "./keys/project-key" ]; then
 else
     echo "A chave SSH já existe em ./keys/project-key"
 fi
+
+terraform init
+terraform apply -var-file=variables.tfvars -auto-approve

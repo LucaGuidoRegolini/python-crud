@@ -16,3 +16,7 @@ fi
 
 terraform init
 terraform apply -var-file=variables.tfvars -auto-approve
+
+ELASTIC_IP=$(terraform output -raw ELASTIC_IP)
+
+echo "Elastic IP: $ELASTIC_IP"

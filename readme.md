@@ -299,7 +299,7 @@ O **TF_VAR_PROJECT_NAME** é o nome do projeto, pode ser qualquer nome, o **TF_V
 
 ```bash
 cd terraform/enviroments/develop
-./run.bash 
+sudo ./run.bash 
 ```
 
 O **run.bash** irá iniciar o projeto e completar as configurações, após isso o projeto irá rodar, sera criado um ip elastico que sera mostrado no console, mas caso não seja é so entrar na aws e procurar esse IP, o projeto sera execultado na porta 5000 desse ip.

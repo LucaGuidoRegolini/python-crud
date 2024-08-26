@@ -33,3 +33,8 @@ resource "null_resource" "ansible_provision" {
   # Espera que a instância esteja disponível antes de rodar o Ansible
   depends_on = [module.dev]
 }
+
+
+output "ELASTIC_IP" {
+  value = module.dev.IP
+}

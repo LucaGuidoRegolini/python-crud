@@ -11,7 +11,7 @@ Claro! Abaixo está um exemplo de diagrama usando a sintaxe do Mermaid, que repr
 
 ```mermaid
 graph TD;
-    A[Usuário] -->|Request| B[EC2 com IP Elástico]
+    A[Usuário] -->|Request| B[EC2]
     B -->|Pull| C[ECR - Repositório de Imagens Docker]
     B -->|Conecta| E[PostgreSQL Database]
     E -->|Acesso| B
@@ -268,6 +268,7 @@ Com o terraform podemos iniciar o projeto na cloud. Isso permitira que qualquer 
 > **Aviso:** Este metodo requer um que você já tenha um banco de dados PostgreSQL funcionando.
 
 #### **Requisitos**
+
 - Terraform
 - Ansible
 - Docker
